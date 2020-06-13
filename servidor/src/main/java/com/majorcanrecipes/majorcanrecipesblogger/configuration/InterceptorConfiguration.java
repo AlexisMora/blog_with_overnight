@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
+
 @Configuration
 @EnableWebMvc
 public class InterceptorConfiguration implements WebMvcConfigurer {
@@ -20,6 +22,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(getInterceptor()).addPathPatterns("/**").excludePathPatterns("/","//getPost");
     }
 }

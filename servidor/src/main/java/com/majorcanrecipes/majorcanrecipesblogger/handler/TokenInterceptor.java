@@ -17,11 +17,10 @@ public class TokenInterceptor implements HandlerInterceptor {
     TokenManager tokenManager;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        String authorization =  request.getHeader("Authorization");
-        if (authorization == null){
+        if  (request.getMethod().equals("OPTIONS")){
             return true;
-            //Esto no tendria que estar, ya que es un agujero de seguridad
         }
+        String authorization =  request.getHeader("Authorization");
         String token = authorization.split(" ")[1];
         //Verificar Token
         String validatedToken = tokenManager.validateToken(token);
