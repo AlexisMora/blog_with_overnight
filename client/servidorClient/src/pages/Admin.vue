@@ -71,6 +71,10 @@ export default {
   },
   mounted() {
     let token = this.$route.query.token;
+    if (token == null ||localStorage.getItem("token")) {
+      this.$router.push({ path: "/" });
+    }
+
     let userEmail = this.$route.query.userEmail
     if((token != undefined || token != null) &&(userEmail != undefined || userEmail != null) ){
     console.log("our Token!: ", token);

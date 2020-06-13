@@ -16,6 +16,9 @@ const routes = [
     children: [
       { path: 'home', component: () => import('pages/Admin.vue') },
       { path: 'postform', component: () => import('pages/PostForm.vue') },
+      { path: 'calculator', component: () => import('pages/CalorieCalculator.vue') },
+      { path: 'mealcalculator', component: () => import('pages/MealCalculator.vue') }
+
     ]
   }
 ]

@@ -85,9 +85,17 @@ export default {
 
       this.translatedTitle = fetchPost.title;
       this.translatedContent = fetchPost.content;
-      
-      this.ogContent =  await this.translateMetod(fetchPost.content,fetchPost.langTranslate,fetchPost.langOriginal);
-      this.ogTitle = await this.translateMetod(fetchPost.title,fetchPost.langTranslate,fetchPost.langOriginal);
+
+      this.ogContent = await this.translateMetod(
+        fetchPost.content,
+        fetchPost.langTranslate,
+        fetchPost.langOriginal
+      );
+      this.ogTitle = await this.translateMetod(
+        fetchPost.title,
+        fetchPost.langTranslate,
+        fetchPost.langOriginal
+      );
     },
     getLanguages: async function() {
       let idiomasResponse = await this.$axios.post(
@@ -104,8 +112,8 @@ export default {
       this.languages = idiomasData.data;
       console.log(this.idiomas);
     },
-    translateMetod: async function(texto,sourceLang,targetLang) {
-      console.log("codigos de lenguaje: ",sourceLang,targetLang)
+    translateMetod: async function(texto, sourceLang, targetLang) {
+      console.log("codigos de lenguaje: ", sourceLang, targetLang);
       let traduccionResponse = await this.$axios.post(
         "http://server247.cfgs.esliceu.net/bloggeri18n/blogger.php",
         {
@@ -121,20 +129,24 @@ export default {
     },
     translate: async function(texto, piece) {
       //Piece would be if the title or content
-      console.log("Codigos: ",this.originalCode,this.translateCode) 
-      let originalLang =""
-      let translateLang = "" //Ho se, no es elegant
-      if(this.originalCode.code == undefined){
-        originalLang =this.originalCode
-      }else{
-        originalLang =this.originalCode.code
+      console.log("Codigos: ", this.originalCode, this.translateCode);
+      let originalLang = "";
+      let translateLang = ""; //Ho se, no es elegant
+      if (this.originalCode.code == undefined) {
+        originalLang = this.originalCode;
+      } else {
+        originalLang = this.originalCode.code;
       }
-      if(this.translateCode.code == undefined){
-        translateLang = this.translateCode
-      }else{
-        originalLang =this.originalCode.code
+      if (this.translateCode.code == undefined) {
+        translateLang = this.translateCode;
+      } else {
+        originalLang = this.originalCode.code;
       }
-      let traduccionResponse = await this.translateMetod(texto,originalLang,this.translateCode);
+      let traduccionResponse = await this.translateMetod(
+        texto,
+        originalLang,
+        this.translateCode
+      );
       if (piece == "title") {
         this.translatedTitle = traduccionResponse;
       }
@@ -143,17 +155,17 @@ export default {
       }
     },
     savePost: function() {
-      let originalLang =""
-      let translateLang = "" //Ho se, no es elegant
-      if(this.originalCode.code == undefined){
-        originalLang =this.originalCode
-      }else{
-        originalLang =this.originalCode.code
+      let originalLang = "";
+      let translateLang = ""; //Ho se, no es elegant
+      if (this.originalCode.code == undefined) {
+        originalLang = this.originalCode;
+      } else {
+        originalLang = this.originalCode.code;
       }
-      if(this.translateCode.code == undefined){
-        translateLang = this.translateCode
-      }else{
-        originalLang =this.originalCode.code
+      if (this.translateCode.code == undefined) {
+        translateLang = this.translateCode;
+      } else {
+        originalLang = this.originalCode.code;
       }
       let data = {
         idPost: this.idPost,
@@ -192,6 +204,11 @@ export default {
   },
   async created() {},
   async mounted() {
+    let token = localStorage.getItem("token");
+    if (token == null) {
+      this.$router.push({ path: "/" });
+    }
+
     this.idPost = this.$route.query.idPost;
     await this.getLanguages();
     if (this.idPost != undefined || this.idPost != null) {
